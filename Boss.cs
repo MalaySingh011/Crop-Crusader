@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+//Creates a Boss
 public class Boss : MonoBehaviour
 {
     public GameObject bullet;
@@ -18,12 +19,14 @@ public class Boss : MonoBehaviour
     int health = 15;
     public Slider healthBar;
 
+    //Creates an instance of the boss and makes it start walking
     void Start()
     {
         instance = this;
         WalkNeg();
     }
 
+    //Rounds values and triggers it to stop at endpoints
     void Update()
     {
         healthBar.value = health;
@@ -45,6 +48,7 @@ public class Boss : MonoBehaviour
         }
     }
 
+    //Walks in the positive direciton
     void WalkPos()
     {
         animator.SetBool("isWalking", true);
@@ -53,6 +57,7 @@ public class Boss : MonoBehaviour
         healthBar.transform.localScale = new Vector3(.05f, .1f, 1f);
     }
 
+    //Walks in the negative direction
     void WalkNeg()
     {
         animator.SetBool("isWalking", true);
@@ -61,6 +66,7 @@ public class Boss : MonoBehaviour
         healthBar.transform.localScale = new Vector3(-.05f, .1f, 1f);
     }
 
+    //Calls the boss to attack
     void Fire()
     {
         animator.SetBool("isWalking", false);
@@ -68,6 +74,7 @@ public class Boss : MonoBehaviour
         Instantiate(bullet, gun.position, transform.rotation);
     }
 
+//Repeatedly fires at the player for a random period of time and stops walking when the player enters the trigger box
     void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
@@ -81,6 +88,7 @@ public class Boss : MonoBehaviour
         }
     }
 
+    //Stops firing and walks when the player exits the trigger
     void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player" && other == other.GetComponent<CapsuleCollider2D>())
@@ -91,6 +99,7 @@ public class Boss : MonoBehaviour
         }
     }
 
+    //Switches the direction the boss is looking at to face the player
     void CheckDirection()
     {
         if (transform.position.x < Player.instance.transform.position.x)
@@ -105,6 +114,7 @@ public class Boss : MonoBehaviour
         }
     }
 
+    //Damages the boss and checks for death
     public void TakeDamage()
     {
         CancelInvoke("Fire");
@@ -127,6 +137,7 @@ public class Boss : MonoBehaviour
         }
     }
 
+    //Kills the boss
     void Death()
     {
         Destroy(this.gameObject);

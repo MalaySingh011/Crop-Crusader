@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Dialogue input
 [System.Serializable]
 public class Dialogue
 {

@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//Dictates camera movement
 public class CameraMovement : MonoBehaviour {
 
     public Transform player;
@@ -8,7 +9,7 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField] float bottomLimit;
     [SerializeField] float topLimit;
 
-    // Update is called once per frame
+    //Updates the camera to follow the player
     void Update ()
     {
         transform.position = player.transform.position + new Vector3(0, 1, -5);

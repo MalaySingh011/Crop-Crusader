@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
-
+//Manages Dialogue
 public class DialogueManager : MonoBehaviour
 {
     private Queue<string> sentences;
@@ -20,12 +20,14 @@ public class DialogueManager : MonoBehaviour
 
     int enemies;
 
+    //Starts a new Dialogue Manager
     void Start()
     {
         sentences = new Queue<string>();
         enemies = FindObjectsByType<Snail>(FindObjectsSortMode.None).Length;
     }
 
+    //Accepts a Dialogue class input and displays it
     public void StartDialogue (Dialogue dialogue)
     {
         sentences.Clear();
@@ -34,13 +36,13 @@ public class DialogueManager : MonoBehaviour
         nameText.text = dialogue.name;
         for (int i = 0; i < dialogue.sentences.Length; i++)
         {
-            if (dialogue.sentences[i].Contains("z"))
+            if (dialogue.sentences[i].Contains("^"))
             {
                 Snail.totalkills += Snail.currkills;
                 dialogue.sentences[i] = dialogue.sentences[i].Replace("z", Snail.currkills.ToString());
                 Snail.currkills = 0;
             }
-            if (dialogue.sentences[i].Contains("x"))
+            if (dialogue.sentences[i].Contains("~"))
             {
                 StaminaHealth.instance.FoodPoints(Food.foodCount);
                 Food.totalFoodCount += Food.foodCount;
@@ -63,6 +65,7 @@ public class DialogueManager : MonoBehaviour
         DisplayNextSentence();
     }
 
+    //Displays the next sentence
     public void DisplayNextSentence()
     {
         if (sentences.Count == 0)
@@ -76,6 +79,7 @@ public class DialogueManager : MonoBehaviour
         StartCoroutine(TypeSentence(sentence));
     }
 
+    //Types a sentence letter by letter
     IEnumerator TypeSentence (string sentence)
     {
         dialogueText.text = "";
@@ -86,6 +90,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
+    //Stops dialogue
     void EndDialogue()
     {
         dialogueManager.SetActive(false);
@@ -106,11 +111,13 @@ public class DialogueManager : MonoBehaviour
         }
     }
     
+    //Loads the next scene
     void LoadNextScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    //Loads another scene
     void LoadOtherScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 2);
